@@ -10,6 +10,7 @@ import CheckboxesGroup from "../../components/ui/checkboxesGroup";
 import RadioButtonsGroup from "../../components/ui/radioButtonsGroup";
 import { saveAs } from "file-saver";
 import axios from "axios";
+import { withRouter, Redirect } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -51,7 +52,7 @@ function getStepContent(stepIndex: number) {
   }
 }
 
-export default function HorizontalLabelPositionBelowStepper() {
+function HorizontalLabelPositionBelowStepper(props: any) {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
@@ -75,6 +76,7 @@ export default function HorizontalLabelPositionBelowStepper() {
       .then(res => {
         const pdfBlob = new Blob([res.data], { type: "application/pdf" });
         saveAs(pdfBlob, "ghassan-classic-fitness-program.pdf");
+        window.location.replace("https://ghassanclassic.com");
       });
   };
 
@@ -132,3 +134,4 @@ export default function HorizontalLabelPositionBelowStepper() {
     </div>
   );
 }
+export default withRouter(HorizontalLabelPositionBelowStepper);
