@@ -29,18 +29,18 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface State {
   name: string;
-  age: string;
-  multiline: string;
-  currency: string;
+  email: string;
+  password: string;
+  comfirmPassword: string;
 }
 
-export default function TextFields() {
+export default function TextFields(props: any) {
   const classes = useStyles();
   const [values, setValues] = React.useState<State>({
-    name: "Cat in the Hat",
-    age: "",
-    multiline: "Controlled",
-    currency: "EUR"
+    name: localStorage.getItem("name") || "",
+    email: localStorage.getItem("email") || "",
+    password: localStorage.getItem("password") || "",
+    comfirmPassword: localStorage.getItem("comfirmPassword") || ""
   });
 
   const handleChange = (name: keyof State) => (
@@ -50,38 +50,42 @@ export default function TextFields() {
   };
 
   return (
-    <form className={classes.container} noValidate autoComplete="off">
+    <div className={classes.container}>
       <Typography className={classes.title} color="textSecondary" gutterBottom>
         اضف معلومات التواصل الخاصه بك
       </Typography>
       <TextField
-        id="standard-name"
+        value={values.name}
+        id="name"
         label="الاسم"
         className={classes.textField}
         onChange={handleChange("name")}
         margin="normal"
       />
       <TextField
-        id="standard-name"
+        value={values.email}
+        id="email"
         label="الايميل"
         className={classes.textField}
-        onChange={handleChange("name")}
+        onChange={handleChange("email")}
         margin="normal"
       />
       <TextField
-        id="standard-name"
+        value={values.password}
+        id="password"
         label="كلمه السر"
         className={classes.textField}
-        onChange={handleChange("name")}
+        onChange={handleChange("password")}
         margin="normal"
       />
       <TextField
-        id="standard-name"
+        value={values.comfirmPassword}
+        id="comfirmPassword"
         label="تاكيد كلمه السر"
         className={classes.textField}
-        onChange={handleChange("name")}
+        onChange={handleChange("comfirmPassword")}
         margin="normal"
       />
-    </form>
+    </div>
   );
 }

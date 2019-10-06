@@ -19,40 +19,69 @@ const useStyles = makeStyles((theme: Theme) =>
     }
   })
 );
-
+interface State {
+  age: any;
+  weight: any;
+  foodSupplement: any;
+  sarms: any;
+  steroids: any;
+}
 export default function CheckboxesGroup() {
   const classes = useStyles();
-  const [state, setState] = React.useState({
-    gilad: true,
-    jason: false,
-    antoine: false
+  const [state, setState] = React.useState<State>({
+    age: localStorage.getItem("age") || "",
+    weight: localStorage.getItem("weight") || "",
+    foodSupplement: localStorage.getItem("foodSupplement") || false,
+    sarms: localStorage.getItem("sarms") || false,
+    steroids: localStorage.getItem("steroids") || false
   });
 
   const handleChange = (name: string) => (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setState({ ...state, [name]: event.target.checked });
+    console.log("on change ==>", state);
   };
 
-  const { gilad, jason, antoine } = state;
-  const error = [gilad, jason, antoine].filter(v => v).length !== 2;
+  const handleChangeText = (name: string) => (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setState({ ...state, [name]: event.target.value });
+  };
+
+  const { age, weight, steroids, sarms, foodSupplement } = state;
+  const error =
+    [age, weight, steroids, sarms, foodSupplement].filter(v => v).length !== 2;
 
   return (
     <div className={classes.root}>
       <Typography color="textSecondary" gutterBottom>
         معلومات لتصميم المنهج خصيصا لك
       </Typography>
-      <TextField id="standard-name" label="عمرك" margin="normal" />
-      <TextField id="standard-name" label="وزنك" margin="normal" />
+      <TextField
+        id="age"
+        value={age}
+        onChange={handleChangeText("age")}
+        label="عمرك"
+        margin="normal"
+      />
+      <TextField
+        id="weight"
+        value={weight}
+        onChange={handleChangeText("weight")}
+        label="وزنك"
+        margin="normal"
+      />
       <FormControl component="fieldset" className={classes.formControl}>
         <FormLabel component="legend">المكملات و الاستعمال</FormLabel>
         <FormGroup>
           <FormControlLabel
             control={
               <Checkbox
-                checked={gilad}
-                onChange={handleChange("gilad")}
-                value="gilad"
+                checked={foodSupplement}
+                id="foodSupplement"
+                onChange={handleChange("foodSupplement")}
+                value="foodSupplement"
               />
             }
             label="هل تاخذ مكملات غذائيه؟"
@@ -60,9 +89,10 @@ export default function CheckboxesGroup() {
           <FormControlLabel
             control={
               <Checkbox
-                checked={jason}
-                onChange={handleChange("jason")}
-                value="jason"
+                id="sarms"
+                onChange={handleChange("sarms")}
+                value="sarms"
+                checked={sarms}
               />
             }
             label="هل تاخذ سارمس؟"
@@ -70,9 +100,10 @@ export default function CheckboxesGroup() {
           <FormControlLabel
             control={
               <Checkbox
-                checked={antoine}
-                onChange={handleChange("antoine")}
-                value="antoine"
+                id="steroids"
+                onChange={handleChange("steroids")}
+                value="steroids"
+                checked={steroids}
               />
             }
             label="هل تاخذ منشطات و هرمونات؟"

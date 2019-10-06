@@ -1,0 +1,58 @@
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import * as actions from "../storeRedux/actions";
+import PaymentStepper from "../components/steppers";
+import TextFields from "../components/ui/inputFieldsGroup";
+import CheckboxesGroup from "../components/ui/checkboxesGroup";
+import RadioButtonsGroup from "../components/ui/radioButtonsGroup";
+import { saveAs } from "file-saver";
+import axios from "axios";
+
+export class PaymentProcessorContainer extends Component {
+  state = {
+    user: this.props.user
+  };
+
+  fetchPdfFile = () => {
+    axios
+      .get("https://ghassan-classic-backend.herokuapp.com/download", {
+        responseType: "blob"
+      })
+      .then(res => {
+        const pdfBlob = new Blob([res.data], { type: "application/pdf" });
+        saveAs(pdfBlob, "ghassan-classic-fitness-program.pdf");
+        window.location.replace("https://ghassanclassic.com");
+      });
+  };
+  getStepContent = stepIndex => {
+    switch (stepIndex) {
+      case 0:
+        return <TextFields userInfo={this.state.user} />;
+      case 1:
+        return <CheckboxesGroup />;
+      case 2:
+        return <RadioButtonsGroup />;
+      default:
+        return "Uknown stepIndex";
+    }
+  };
+  render() {
+    return (
+      <PaymentStepper
+        userInfoRegister={this.props.userInfoRegister}
+        userInfoProgram={this.props.userInfoProgram}
+        fetchPdfFile={this.fetchPdfFile}
+        getStepContent={this.getStepContent}
+      ></PaymentStepper>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  user: state.user
+});
+
+export default connect(
+  mapStateToProps,
+  actions
+)(PaymentProcessorContainer);

@@ -1,8 +1,8 @@
 import React from "react";
-import ReactApp from "./containers/Steppers/steppers";
+import PaymentProcessorContainer from "./containers/PaymentProcessorContainer";
 import "./App.css";
 const App: React.FC = () => {
-  return <ReactApp></ReactApp>;
+  return <PaymentProcessorContainer></PaymentProcessorContainer>;
 };
 
 export default App;
