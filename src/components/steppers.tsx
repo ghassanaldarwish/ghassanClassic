@@ -55,6 +55,15 @@ function PaymentStepper(props: any) {
         .then(res => {
           console.log("res from BE=>", res.data);
           setState({ ...state, loading: false });
+          localStorage.removeItem("age");
+          localStorage.removeItem("weight");
+          localStorage.removeItem("foodSupplement");
+          localStorage.removeItem("sarms");
+          localStorage.removeItem("steroids");
+          localStorage.removeItem("name");
+          localStorage.removeItem("email");
+          localStorage.removeItem("password");
+          localStorage.removeItem("comfirmPassword");
         });
       console.log("loading ====>", state.loading);
     }
