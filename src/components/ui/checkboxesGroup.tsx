@@ -26,7 +26,7 @@ interface State {
   sarms: any;
   steroids: any;
 }
-export default function CheckboxesGroup() {
+export default function CheckboxesGroup(props: any) {
   const classes = useStyles();
   const [state, setState] = React.useState<State>({
     age: localStorage.getItem("age") || "",
@@ -50,6 +50,14 @@ export default function CheckboxesGroup() {
   };
 
   const { age, weight, steroids, sarms, foodSupplement } = state;
+  console.log(
+    "age, weight, steroids, sarms, foodSupplement",
+    age,
+    weight,
+    steroids,
+    sarms,
+    foodSupplement
+  );
   const error =
     [age, weight, steroids, sarms, foodSupplement].filter(v => v).length !== 2;
 

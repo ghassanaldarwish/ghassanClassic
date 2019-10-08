@@ -7,15 +7,12 @@ import CheckboxesGroup from "../components/ui/checkboxesGroup";
 import RadioButtonsGroup from "../components/ui/radioButtonsGroup";
 import { saveAs } from "file-saver";
 import axios from "axios";
+import { BASE_URL } from "../variables";
 
 export class PaymentProcessorContainer extends Component {
-  state = {
-    user: this.props.user
-  };
-
   fetchPdfFile = () => {
     axios
-      .get("https://ghassan-classic-backend.herokuapp.com/download", {
+      .get(BASE_URL + "/download", {
         responseType: "blob"
       })
       .then(res => {
@@ -27,9 +24,9 @@ export class PaymentProcessorContainer extends Component {
   getStepContent = stepIndex => {
     switch (stepIndex) {
       case 0:
-        return <TextFields userInfo={this.state.user} />;
+        return <TextFields user={this.props.user} />;
       case 1:
-        return <CheckboxesGroup />;
+        return <CheckboxesGroup user={this.props.user} />;
       case 2:
         return <RadioButtonsGroup />;
       default:
@@ -39,6 +36,8 @@ export class PaymentProcessorContainer extends Component {
   render() {
     return (
       <PaymentStepper
+        userData={this.props.user}
+        BASE_URL={BASE_URL}
         userInfoRegister={this.props.userInfoRegister}
         userInfoProgram={this.props.userInfoProgram}
         fetchPdfFile={this.fetchPdfFile}
